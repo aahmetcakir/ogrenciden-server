@@ -11,5 +11,5 @@ app.use(helmet());
 
 app.listen(process.env.APP_PORT, () => {
   console.log("sunucu ayakta");
-  app.use("/products", ProductsRoutes.router);
+  app.use("/products", ProductsRoutes);
 });

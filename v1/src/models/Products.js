@@ -2,7 +2,14 @@ const Mongoose = require("mongoose");
 
 const ProductSchema = new Mongoose.Schema(
   {
-    name: String,
+    title: String,
+    price: String,
+    category: String,
+    university: String,
+    campus: String,
+    contact: String,
+    description: String,
+    images: Array,
   },
   {
     versionKey: false,
