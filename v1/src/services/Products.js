@@ -11,6 +11,9 @@ const list = () => {
 const getProduct = (productId) => {
   return Product.findById(productId);
 };
+const remove = (productId) => {
+  return Product.findOneAndDelete(productId);
+};
 const searchByProductTitle = (productTitle) => {
   return Product.find({
     $text: { $search: productTitle, $caseSensitive: false },
@@ -22,4 +25,5 @@ module.exports = {
   list,
   getProduct,
   searchByProductTitle,
+  remove,
 };
