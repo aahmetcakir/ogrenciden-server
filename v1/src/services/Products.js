@@ -12,7 +12,10 @@ const getProduct = (productId) => {
   return Product.findById(productId);
 };
 const remove = (productId) => {
-  return Product.findOneAndDelete(productId);
+  return Product.findByIdAndDelete(productId);
+};
+const update = (productId, productsData) => {
+  return Product.findByIdAndUpdate(productId, productsData);
 };
 const searchByProductTitle = (productTitle) => {
   return Product.find({
@@ -26,4 +29,5 @@ module.exports = {
   getProduct,
   searchByProductTitle,
   remove,
+  update,
 };

@@ -4,6 +4,7 @@ const {
   getProduct,
   searchByProductTitle,
   remove,
+  update,
 } = require("../services/Products");
 const httpStatus = require("http-status");
 
@@ -57,6 +58,15 @@ const searchProduct = (req, res) => {
       res.status(httpStatus.NOT_FOUND).send(err);
     });
 };
+const updateProduct = (req, res) => {
+  update(req.params.id, req.body)
+    .then((result) => {
+      res.status(httpStatus.OK).send(result);
+    })
+    .catch((err) => {
+      res.status(httpStatus.NOT_FOUND).send(err);
+    });
+};
 
 module.exports = {
   create,
@@ -64,4 +74,5 @@ module.exports = {
   getSingleProduct,
   searchProduct,
   removeProduct,
+  updateProduct,
 };
