@@ -8,8 +8,18 @@ const insert = (productsData) => {
 const list = () => {
   return Product.find();
 };
+const getProduct = (productId) => {
+  return Product.findById(productId);
+};
+const searchByProductTitle = (productTitle) => {
+  return Product.find({
+    $text: { $search: productTitle, $caseSensitive: false },
+  });
+};
 
 module.exports = {
   insert,
   list,
+  getProduct,
+  searchByProductTitle,
 };

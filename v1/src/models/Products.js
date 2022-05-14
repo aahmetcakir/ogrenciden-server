@@ -9,12 +9,13 @@ const ProductSchema = new Mongoose.Schema(
     campus: String,
     contact: String,
     description: String,
-    images: Array,
+    images: String,
   },
   {
     versionKey: false,
     timestamps: true,
   }
 );
+ProductSchema.index({ title: "text" });
 
 module.exports = Mongoose.model("products", ProductSchema);
