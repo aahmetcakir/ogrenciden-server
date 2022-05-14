@@ -26,8 +26,6 @@ const index = (req, res) => {
     });
 };
 const getSingleProduct = (req, res) => {
-  console.log("test");
-
   getProduct(req.params.id)
     .then((result) => {
       if (!result)
