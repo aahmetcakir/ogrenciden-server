@@ -5,6 +5,7 @@ const {
   searchByProductTitle,
   remove,
   update,
+  filter,
 } = require("../services/Products");
 const httpStatus = require("http-status");
 
@@ -67,6 +68,17 @@ const updateProduct = (req, res) => {
       res.status(httpStatus.NOT_FOUND).send(err);
     });
 };
+const filterProduct = (req, res) => {
+  var filters = { ...req.body };
+  // console.log(filters);
+  filter(filters)
+    .then((result) => {
+      res.status(httpStatus.OK).send(result);
+    })
+    .catch((err) => {
+      res.status(httpStatus.NOT_FOUND).send(err);
+    });
+};
 
 module.exports = {
   create,
@@ -75,4 +87,5 @@ module.exports = {
   searchProduct,
   removeProduct,
   updateProduct,
+  filterProduct,
 };

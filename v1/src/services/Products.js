@@ -22,6 +22,10 @@ const searchByProductTitle = (productTitle) => {
     $text: { $search: productTitle, $caseSensitive: false },
   });
 };
+const filter = (productData) => {
+  console.log(productData);
+  return Product.find({ $and: [{ ...productData }] });
+};
 
 module.exports = {
   insert,
@@ -30,4 +34,5 @@ module.exports = {
   searchByProductTitle,
   remove,
   update,
+  filter,
 };
