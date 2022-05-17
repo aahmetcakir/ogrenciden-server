@@ -13,8 +13,16 @@ const createValidation = Joi.object({
 const searchValidation = Joi.object({
   title: Joi.string().required().min(3).max(70),
 });
+const filterValidation = Joi.object({
+  category: Joi.string().min(2).max(20),
+  university: Joi.string(),
+  campus: Joi.string(),
+  maxPrice: Joi.string().min(1).max(10),
+  minPrice: Joi.string().min(1).max(10),
+});
 
 module.exports = {
   createValidation,
   searchValidation,
+  filterValidation,
 };

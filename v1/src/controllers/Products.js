@@ -70,9 +70,12 @@ const updateProduct = (req, res) => {
 };
 const filterProduct = (req, res) => {
   var filters = { ...req.body };
-  // console.log(filters);
   filter(filters)
     .then((result) => {
+      const isResultEmpty = !Object.keys(result).length;
+      if (isResultEmpty)
+        return res.status(httpStatus.NOT_FOUND).send({ message: "Not found" });
+
       res.status(httpStatus.OK).send(result);
     })
     .catch((err) => {
