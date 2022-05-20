@@ -1,15 +1,18 @@
 const {
   insert,
   list,
-  getProduct,
-  searchByProductTitle,
   remove,
   update,
-  filter,
-} = require("../services/Products");
+  getUser,
+  login,
+} = require("../services/User");
 const httpStatus = require("http-status");
 
+const { passwordToHash } = require("../scripts/utils/helper");
+
 const create = (req, res) => {
+  req.body.password = passwordToHash(req.body.password);
+
   insert(req.body)
     .then((result) => {
       res.status(httpStatus.CREATED).send(result);
@@ -27,13 +30,13 @@ const index = (req, res) => {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
     });
 };
-const getSingleProduct = (req, res) => {
-  getProduct(req.params.id)
+const getSingleUser = (req, res) => {
+  getUser(req.params.id)
     .then((result) => {
       if (!result)
         return res
           .status(httpStatus.NOT_FOUND)
-          .send({ message: "Ads not found" });
+          .send({ message: "User not found" });
 
       res.status(httpStatus.OK).send(result);
     })
@@ -41,7 +44,22 @@ const getSingleProduct = (req, res) => {
       res.status(httpStatus.NOT_FOUND).send(err);
     });
 };
-const removeProduct = (req, res) => {
+const loginUser = (req, res) => {
+  req.body.password = passwordToHash(req.body.password);
+  login(req.body)
+    .then((result) => {
+      if (!result)
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .send({ message: "User not found" });
+
+      res.status(httpStatus.OK).send(result);
+    })
+    .catch((err) => {
+      res.status(httpStatus.NOT_FOUND).send(err);
+    });
+};
+const removeUser = (req, res) => {
   remove(req.params.id)
     .then((result) => {
       res.status(httpStatus.OK).send(result);
@@ -50,32 +68,13 @@ const removeProduct = (req, res) => {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
     });
 };
-const searchProduct = (req, res) => {
-  searchByProductTitle(req.body.title)
-    .then((result) => {
-      res.status(httpStatus.OK).send(result);
-    })
-    .catch((err) => {
-      res.status(httpStatus.NOT_FOUND).send(err);
-    });
-};
-const updateProduct = (req, res) => {
+const updateUser = (req, res) => {
+  if (req.body.password) {
+    req.body.password = passwordToHash(req.body.password);
+  }
+
   update(req.params.id, req.body)
     .then((result) => {
-      res.status(httpStatus.OK).send(result);
-    })
-    .catch((err) => {
-      res.status(httpStatus.NOT_FOUND).send(err);
-    });
-};
-const filterProduct = (req, res) => {
-  var filters = { ...req.body };
-  filter(filters)
-    .then((result) => {
-      const isResultEmpty = !Object.keys(result).length;
-      if (isResultEmpty)
-        return res.status(httpStatus.NOT_FOUND).send({ message: "Product Not found" });
-
       res.status(httpStatus.OK).send(result);
     })
     .catch((err) => {
@@ -86,9 +85,8 @@ const filterProduct = (req, res) => {
 module.exports = {
   create,
   index,
-  getSingleProduct,
-  searchProduct,
-  removeProduct,
-  updateProduct,
-  filterProduct,
+  getSingleUser,
+  removeUser,
+  updateUser,
+  loginUser,
 };

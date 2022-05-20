@@ -6,6 +6,8 @@ const {
   getSingleProduct,
   searchProduct,
   removeProduct,
+  updateProduct,
+  filterProduct,
 } = require("../controllers/Products");
 const validate = require("../middlewares/validate");
 const schemas = require("../validations/Products");
@@ -13,7 +15,9 @@ const schemas = require("../validations/Products");
 router.get("/", index);
 router.get("/:id", getSingleProduct);
 router.delete("/:id", removeProduct);
+router.route("/:id").put(validate(schemas.createValidation), updateProduct);
 router.route("/").post(validate(schemas.createValidation), create);
 router.route("/search").post(validate(schemas.searchValidation), searchProduct);
+router.route("/filter").post(validate(schemas.filterValidation), filterProduct);
 
 module.exports = router;
