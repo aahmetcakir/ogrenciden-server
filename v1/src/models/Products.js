@@ -10,6 +10,10 @@ const ProductSchema = new Mongoose.Schema(
     contact: String,
     description: String,
     images: String,
+    user_id: {
+      type: Mongoose.Types.ObjectId,
+      ref: "user",
+    },
   },
   {
     versionKey: false,
