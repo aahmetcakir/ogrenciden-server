@@ -9,7 +9,7 @@ loader();
 app.use(express.json());
 app.use(helmet());
 
-app.listen(process.env.APP_PORT, () => {
+app.listen(process.env.APP_PORT || 3000, () => {
   console.log("sunucu ayakta");
   app.use("/products", ProductsRoutes);
   app.use("/auth", UserRoutes);
