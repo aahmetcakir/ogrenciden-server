@@ -7,12 +7,17 @@ const insert = (usersData) => {
 
 const list = () => {
   return User.find().sort({
-    updatedAt: "desc",
+    createdAt: "desc",
   });
 };
 const getUser = (userId) => {
   return User.findById(userId);
 };
+
+const login = (loginData) => {
+  return User.findOne(loginData);
+};
+
 const remove = (userId) => {
   return User.findByIdAndDelete(userId);
 };
@@ -26,4 +31,5 @@ module.exports = {
   remove,
   update,
   getUser,
+  login,
 };
