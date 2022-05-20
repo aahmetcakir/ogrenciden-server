@@ -4,10 +4,14 @@ const UserSchema = new Mongoose.Schema(
   {
     name: String,
     surname: String,
-    email: String,
+    email: {
+      type: String,
+      unique: true,
+    },
     profile_image: String,
     university: String,
     campus: String,
+    password: String,
   },
   {
     versionKey: false,
