@@ -74,7 +74,7 @@ const filterProduct = (req, res) => {
     .then((result) => {
       const isResultEmpty = !Object.keys(result).length;
       if (isResultEmpty)
-        return res.status(httpStatus.NOT_FOUND).send({ message: "Not found" });
+        return res.status(httpStatus.NOT_FOUND).send({ message: "Product Not found" });
 
       res.status(httpStatus.OK).send(result);
     })

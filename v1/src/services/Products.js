@@ -11,7 +11,10 @@ const list = () => {
   });
 };
 const getProduct = (productId) => {
-  return Product.findById(productId);
+  return Product.findById(productId).populate({
+    path: "user_id",
+    select: "name surname email university campus",
+  });
 };
 const remove = (productId) => {
   return Product.findByIdAndDelete(productId);
@@ -25,8 +28,13 @@ const searchByProductTitle = (productTitle) => {
   });
 };
 const filter = (productData) => {
-  console.log(productData);
+  let query = {};
+  if (productData.text) {
+    query.$text = { $search: productData.text, $caseSensitive: false };
+  }
+
   return Product.find({
+    ...query,
     $and: [
       !productData.category ? {} : { category: productData.category },
       !productData.university ? {} : { university: productData.university },

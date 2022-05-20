@@ -14,6 +14,7 @@ const searchValidation = Joi.object({
   title: Joi.string().required().min(3).max(70),
 });
 const filterValidation = Joi.object({
+  text: Joi.string().min(3).max(70),
   category: Joi.string().min(2).max(20),
   university: Joi.string(),
   campus: Joi.string(),
