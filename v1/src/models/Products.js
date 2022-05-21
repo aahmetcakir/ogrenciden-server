@@ -9,7 +9,7 @@ const ProductSchema = new Mongoose.Schema(
     campus: String,
     contact: String,
     description: String,
-    images: String,
+    images: [String],
     user_id: {
       type: Mongoose.Types.ObjectId,
       ref: "user",
