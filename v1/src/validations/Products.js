@@ -8,7 +8,7 @@ const createValidation = Joi.object({
   campus: Joi.string().required(),
   description: Joi.string().required().min(10).max(250),
   contact: Joi.string().required().min(11).max(13),
-  images: Joi.array().required(),
+  images: Joi.array().required().min(1).max(4),
   user_id: Joi.string().required(),
 });
 const searchValidation = Joi.object({
