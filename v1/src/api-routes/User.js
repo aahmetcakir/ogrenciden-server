@@ -13,7 +13,7 @@ const authenticate = require("../middlewares/authenticate");
 
 const schemas = require("../validations/User");
 
-router.get("/:id", getSingleUser);
+router.route("/me").get(authenticate, getSingleUser);
 router.post("/login", loginUser);
 router.route("/").post(validate(schemas.createValidation), create);
 router.route("/").get(authenticate, index);

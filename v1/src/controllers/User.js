@@ -7,6 +7,7 @@ const {
   login,
 } = require("../services/User");
 const httpStatus = require("http-status");
+const JWT = require("jsonwebtoken");
 
 const {
   passwordToHash,
@@ -59,14 +60,26 @@ const index = (req, res) => {
     });
 };
 const getSingleUser = (req, res) => {
-  getUser(req.params.id)
+  const header = req.headers["authorization"];
+  const token = header && header.split(" ")[1];
+
+  let decoded;
+  try {
+    decoded = JWT.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+  } catch (e) {
+    return res.status(401).send("unauthorized");
+  }
+  getUser(decoded._doc._id)
     .then((result) => {
       if (!result)
         return res
           .status(httpStatus.NOT_FOUND)
           .send({ message: "User not found" });
-
-      res.status(httpStatus.OK).send(result);
+      const user = {
+        ...result.toObject(),
+      };
+      delete user.password;
+      res.status(httpStatus.OK).send(user);
     })
     .catch((err) => {
       res.status(httpStatus.NOT_FOUND).send(err);
