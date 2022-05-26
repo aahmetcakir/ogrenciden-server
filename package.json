@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node v1/src/app.js"
+    "start": "nodemon v1/src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
     "helmet": "^5.0.2",
     "http-status": "^1.5.2",
     "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.3"
   },
   "devDependencies": {

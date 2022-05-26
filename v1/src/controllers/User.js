@@ -8,7 +8,11 @@ const {
 } = require("../services/User");
 const httpStatus = require("http-status");
 
-const { passwordToHash } = require("../scripts/utils/helper");
+const {
+  passwordToHash,
+  generateAccessToken,
+  generateRefreshToken,
+} = require("../scripts/utils/helper");
 
 const create = (req, res) => {
   req.body.password = passwordToHash(req.body.password);
@@ -19,6 +23,30 @@ const create = (req, res) => {
     })
     .catch((err) => {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    });
+};
+const loginUser = (req, res) => {
+  req.body.password = passwordToHash(req.body.password);
+  login(req.body)
+    .then((user) => {
+      if (!user)
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .send({ message: "User not found" });
+
+      user = {
+        ...user.toObject(),
+        tokens: {
+          access_token: generateAccessToken(user),
+          refresh_token: generateRefreshToken(user),
+        },
+      };
+
+      delete user.password;
+      res.status(httpStatus.OK).send(user);
+    })
+    .catch((err) => {
+      res.status(httpStatus.NOT_FOUND).send(err);
     });
 };
 const index = (req, res) => {
@@ -44,21 +72,7 @@ const getSingleUser = (req, res) => {
       res.status(httpStatus.NOT_FOUND).send(err);
     });
 };
-const loginUser = (req, res) => {
-  req.body.password = passwordToHash(req.body.password);
-  login(req.body)
-    .then((result) => {
-      if (!result)
-        return res
-          .status(httpStatus.NOT_FOUND)
-          .send({ message: "User not found" });
 
-      res.status(httpStatus.OK).send(result);
-    })
-    .catch((err) => {
-      res.status(httpStatus.NOT_FOUND).send(err);
-    });
-};
 const removeUser = (req, res) => {
   remove(req.params.id)
     .then((result) => {
