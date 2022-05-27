@@ -8,7 +8,9 @@ db.once("open", () => {
 
 const connectDB = async () => {
   await Mongoose.connect(
-    `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+    process.env.ENV === "dev"
+      ? `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`
+      : `mongodb+srv://aahmetcakir:ahomahobeko@ogrenciden.j2bh1.mongodb.net/?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
