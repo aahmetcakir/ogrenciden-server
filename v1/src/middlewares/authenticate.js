@@ -17,8 +17,8 @@ const authenticateToken = (req, res, next) => {
         .send({ error: "Token süresi geçmiş" });
     }
     req.user = user;
-    next();
   });
+  next();
 };
 
 module.exports = authenticateToken;
