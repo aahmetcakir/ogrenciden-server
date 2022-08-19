@@ -4,6 +4,7 @@ const {
   getProduct,
   searchByProductTitle,
   remove,
+  findMyAds,
   update,
   filter,
 } = require("../services/Products");
@@ -25,6 +26,15 @@ const index = (req, res) => {
     })
     .catch((err) => {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    });
+};
+const myAds = (req, res) => {
+  findMyAds(req.params.id)
+    .then((result) => {
+      res.status(httpStatus.OK).send(result);
+    })
+    .catch((err) => {
+      res.status(httpStatus.NOT_FOUND).send(err);
     });
 };
 const getSingleProduct = (req, res) => {
@@ -74,7 +84,9 @@ const filterProduct = (req, res) => {
     .then((result) => {
       const isResultEmpty = !Object.keys(result).length;
       if (isResultEmpty)
-        return res.status(httpStatus.NOT_FOUND).send({ message: "Product Not found" });
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .send({ message: "Product Not found" });
 
       res.status(httpStatus.OK).send(result);
     })
@@ -86,6 +98,7 @@ const filterProduct = (req, res) => {
 module.exports = {
   create,
   index,
+  myAds,
   getSingleProduct,
   searchProduct,
   removeProduct,

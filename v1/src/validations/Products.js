@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const createValidation = Joi.object({
-  title: Joi.string().required().min(5).max(70),
+  title: Joi.string().required().min(3).max(70),
   price: Joi.number().required().min(0).max(999999),
   category: Joi.string().required().min(2).max(20),
   university: Joi.string().required(),

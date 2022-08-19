@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   create,
   index,
+  myAds,
   getSingleProduct,
   searchProduct,
   removeProduct,
@@ -21,6 +22,7 @@ router.route("/search").post(validate(schemas.searchValidation), searchProduct);
 router.route("/filter").post(validate(schemas.filterValidation), filterProduct);
 
 router.route("/:id").delete(authenticate, removeProduct);
+router.route("/my-ads/:id").get(authenticate, myAds);
 router
   .route("/:id")
   .put(authenticate, validate(schemas.createValidation), updateProduct);
