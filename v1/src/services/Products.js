@@ -22,6 +22,11 @@ const remove = (productId) => {
 const update = (productId, productsData) => {
   return Product.findByIdAndUpdate(productId, productsData);
 };
+
+const findMyAds = (userId) => {
+  return Product.find({ user_id: userId });
+};
+
 const searchByProductTitle = (productTitle) => {
   return Product.find({
     $text: { $search: productTitle, $caseSensitive: false },
@@ -63,4 +68,5 @@ module.exports = {
   remove,
   update,
   filter,
+  findMyAds,
 };
