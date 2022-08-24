@@ -140,7 +140,7 @@ const deleteFavorite = (req, res) => {
   } catch (e) {
     return res.status(401).send("unauthorized");
   }
-  const productId = req.body.productId;
+  const productId = req.params.id;
   removeFavorite(decoded._doc._id, productId)
     .then((result) => {
       res.status(httpStatus.OK).send(result);
