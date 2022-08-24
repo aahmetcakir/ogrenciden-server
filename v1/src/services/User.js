@@ -24,6 +24,32 @@ const remove = (userId) => {
 const update = (userId, usersData) => {
   return User.findByIdAndUpdate(userId, usersData);
 };
+const insertFavorite = (userId, productId) => {
+  return User.updateOne(
+    { _id: userId },
+    { $addToSet: { favorites: productId } }
+  );
+};
+const removeFavorite = (userId, productId) => {
+  return User.updateOne(
+    { _id: userId },
+    {
+      $pull: {
+        favorites: { $in: [productId] },
+      },
+    }
+  );
+};
+const fetchFavorite = (userId) => {
+  return User.findById(userId)
+    .populate({
+      path: "favorites",
+      select: "title price category campus images",
+    })
+    .sort({
+      updatedAt: "desc",
+    });
+};
 
 module.exports = {
   insert,
@@ -32,4 +58,7 @@ module.exports = {
   update,
   getUser,
   login,
+  insertFavorite,
+  fetchFavorite,
+  removeFavorite,
 };

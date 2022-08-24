@@ -24,7 +24,9 @@ const update = (productId, productsData) => {
 };
 
 const findMyAds = (userId) => {
-  return Product.find({ user_id: userId });
+  return Product.find({ user_id: userId }).sort({
+    updatedAt: "desc",
+  });
 };
 
 const searchByProductTitle = (productTitle) => {
