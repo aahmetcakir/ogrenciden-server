@@ -5,6 +5,9 @@ const {
   update,
   getUser,
   login,
+  insertFavorite,
+  fetchFavorite,
+  removeFavorite,
 } = require("../services/User");
 const httpStatus = require("http-status");
 const JWT = require("jsonwebtoken");
@@ -108,6 +111,71 @@ const updateUser = (req, res) => {
       res.status(httpStatus.NOT_FOUND).send(err);
     });
 };
+const addFavorite = (req, res) => {
+  const header = req.headers["authorization"];
+  const token = header && header.split(" ")[1];
+
+  let decoded;
+  try {
+    decoded = JWT.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+  } catch (e) {
+    return res.status(401).send("unauthorized");
+  }
+  const productId = req.body.productId;
+  insertFavorite(decoded._doc._id, productId)
+    .then((result) => {
+      res.status(httpStatus.OK).send(result);
+    })
+    .catch((err) => {
+      res.status(httpStatus.NOT_FOUND).send(err);
+    });
+};
+const deleteFavorite = (req, res) => {
+  const header = req.headers["authorization"];
+  const token = header && header.split(" ")[1];
+
+  let decoded;
+  try {
+    decoded = JWT.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+  } catch (e) {
+    return res.status(401).send("unauthorized");
+  }
+  const productId = req.body.productId;
+  removeFavorite(decoded._doc._id, productId)
+    .then((result) => {
+      res.status(httpStatus.OK).send(result);
+    })
+    .catch((err) => {
+      res.status(httpStatus.NOT_FOUND).send(err);
+    });
+};
+
+const getFavorites = (req, res) => {
+  const header = req.headers["authorization"];
+  const token = header && header.split(" ")[1];
+
+  let decoded;
+  try {
+    decoded = JWT.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+  } catch (e) {
+    return res.status(401).send("unauthorized");
+  }
+  fetchFavorite(decoded._doc._id)
+    .then((result) => {
+      if (!result)
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .send({ message: "User not found" });
+      const user = {
+        ...result.toObject(),
+      };
+      delete user.password;
+      res.status(httpStatus.OK).send(user);
+    })
+    .catch((err) => {
+      res.status(httpStatus.NOT_FOUND).send(err);
+    });
+};
 
 module.exports = {
   create,
@@ -116,4 +184,7 @@ module.exports = {
   removeUser,
   updateUser,
   loginUser,
+  addFavorite,
+  getFavorites,
+  deleteFavorite,
 };

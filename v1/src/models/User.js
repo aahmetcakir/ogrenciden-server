@@ -12,6 +12,12 @@ const UserSchema = new Mongoose.Schema(
     university: String,
     campus: String,
     password: String,
+    favorites: [
+      {
+        type: Mongoose.Types.ObjectId,
+        ref: "products",
+      },
+    ],
   },
   {
     versionKey: false,
