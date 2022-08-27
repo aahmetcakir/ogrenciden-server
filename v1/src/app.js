@@ -13,7 +13,7 @@ app.use(helmet());
 app.use(cors());
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://www.ogrenciden.co/"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Origin", "https://ogrenciden.herokuapp.com"); // update to match the domain you will make the request from
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
