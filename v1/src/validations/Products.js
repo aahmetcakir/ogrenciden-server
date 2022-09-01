@@ -23,6 +23,8 @@ const filterValidation = Joi.object({
   minPrice: Joi.number().min(0).max(999999),
   sortDate: Joi.string(),
   sortPrice: Joi.string(),
+  page: Joi.number(),
+  limit: Joi.number(),
 });
 
 module.exports = {

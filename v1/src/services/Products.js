@@ -39,7 +39,8 @@ const filter = (productData) => {
   if (productData.text) {
     query.$text = { $search: productData.text, $caseSensitive: false };
   }
-
+  const limitValue = productData.limit || 2;
+  const pageValue = productData.page || 0;
   return Product.find({
     ...query,
     $and: [
@@ -53,13 +54,16 @@ const filter = (productData) => {
         ? {}
         : { price: { $lte: parseInt(productData.maxPrice) } },
     ],
-  }).sort(
-    productData.sortPrice
-      ? { price: productData.sortPrice || "asc" }
-      : {
-          updatedAt: productData.sortDate || "desc",
-        }
-  );
+  })
+    .sort(
+      productData.sortPrice
+        ? { price: productData.sortPrice || "asc" }
+        : {
+            updatedAt: productData.sortDate || "desc",
+          }
+    )
+    .limit(limitValue)
+    .skip(limitValue * pageValue);
 };
 
 module.exports = {

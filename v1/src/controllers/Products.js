@@ -79,7 +79,7 @@ const updateProduct = (req, res) => {
     });
 };
 const filterProduct = (req, res) => {
-  var filters = { ...req.body };
+  const filters = { ...req.body };
   filter(filters)
     .then((result) => {
       const isResultEmpty = !Object.keys(result).length;
